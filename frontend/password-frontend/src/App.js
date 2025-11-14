@@ -8,7 +8,8 @@ function App() {
   const [passwords, setPasswords] = useState([]);
   const [revealed, setRevealed] = useState({}); // id -> parola în clar
 
-  const API_BASE = "http://localhost:8080/api";
+  const API_BASE = "https://password-manager-production-f01e.up.railway.app/api";
+
 
   const loadPasswords = async () => {
     try {
