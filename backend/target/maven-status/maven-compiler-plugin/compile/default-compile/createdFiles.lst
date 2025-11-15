@@ -1,4 +1,5 @@
 com/example/passwordapp/LoginRequest.class
+com/example/passwordapp/PasswordAppApplication$1.class
 com/example/passwordapp/AuthService.class
 com/example/passwordapp/AuthResponse.class
 com/example/passwordapp/CryptoUtil.class
