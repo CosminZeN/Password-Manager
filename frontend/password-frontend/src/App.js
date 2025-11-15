@@ -4,6 +4,7 @@ import "./App.css";
 const API_BASE = "https://password-manager-production-f01e.up.railway.app/api";
 const AUTH_BASE = "https://password-manager-production-f01e.up.railway.app/auth";
 
+
 function App() {
   const [view, setView] = useState("login"); // "login" | "register" | "app"
 
