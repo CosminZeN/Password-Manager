@@ -5,8 +5,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 public class CryptoUtil {
-
-    // Cheie fixă de 16 caractere pentru AES-128 (EXEMPLU EDUCAȚIONAL)
+    
     private static final String SECRET = "1234567890ABCDEF";
 
     private static SecretKeySpec getKey() {

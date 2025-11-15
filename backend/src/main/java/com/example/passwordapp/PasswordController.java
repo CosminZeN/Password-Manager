@@ -1,53 +1,83 @@
 package com.example.passwordapp;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*") // permite orice port de pe localhost (React 3000/3001/3002)
+@CrossOrigin(origins = "*")
 public class PasswordController {
 
-    private final List<PasswordEntry> entries = new ArrayList<>();
-    private int nextId = 1;
+    private final PasswordEntryRepository passwordEntryRepository;
+    private final AuthService authService;
 
-    // Adaugă o parolă nouă
+    public PasswordController(PasswordEntryRepository passwordEntryRepository, AuthService authService) {
+        this.passwordEntryRepository = passwordEntryRepository;
+        this.authService = authService;
+    }
+
+    // helper: extragem user din header-ul Authorization: Bearer <token>
+    private User getUserFromAuthHeader(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new RuntimeException("Lipsă token");
+        }
+        String token = authorizationHeader.substring(7);
+        return authService
+                .getUserFromToken(token)
+                .orElseThrow(() -> new RuntimeException("Token invalid sau expirat"));
+    }
+
     @PostMapping("/passwords")
-    public PasswordEntry savePassword(@RequestBody PasswordRequest request) {
+    public ResponseEntity<?> savePassword(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody PasswordRequest request
+    ) {
         try {
+            User user = getUserFromAuthHeader(authorization);
             String encrypted = CryptoUtil.encrypt(request.getPassword());
-            PasswordEntry entry = new PasswordEntry(nextId++, request.getLabel(), encrypted);
-            entries.add(entry);
-
-            // Nu trimitem parola criptată neapărat, dar pentru simplitate o lăsăm
-            return entry;
+            PasswordEntry entry = new PasswordEntry(request.getLabel(), encrypted, user);
+            passwordEntryRepository.save(entry);
+            return ResponseEntity.ok("Parola salvată!");
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Eroare la criptare");
+            return ResponseEntity.badRequest().body("Eroare la salvare: " + e.getMessage());
         }
     }
 
-    // Lista tuturor parolelor (fără decriptare)
+    
     @GetMapping("/passwords")
-    public List<PasswordEntry> getAllPasswords() {
-        return entries;
+    public ResponseEntity<?> getAllPasswords(@RequestHeader("Authorization") String authorization) {
+        try {
+            User user = getUserFromAuthHeader(authorization);
+            List<PasswordEntry> list = passwordEntryRepository.findByUserId(user.getId());
+            return ResponseEntity.ok(list);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(401).body("Neautorizat: " + ex.getMessage());
+        }
     }
 
-    // Decriptează o parolă după id
     @GetMapping("/passwords/{id}/reveal")
-    public String revealPassword(@PathVariable int id) {
+    public ResponseEntity<?> revealPassword(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id
+    ) {
         try {
-            for (PasswordEntry entry : entries) {
-                if (entry.getId() == id) {
-                    return CryptoUtil.decrypt(entry.getEncryptedPassword());
-                }
+            User user = getUserFromAuthHeader(authorization);
+            PasswordEntry entry = passwordEntryRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Parola nu există"));
+
+            if (!entry.getUser().getId().equals(user.getId())) {
+                return ResponseEntity.status(403).body("Nu ai voie să vezi parola altui user.");
             }
-            return "Parolă inexistentă.";
+
+            String decrypted = CryptoUtil.decrypt(entry.getEncryptedPassword());
+            return ResponseEntity.ok(decrypted);
         } catch (Exception e) {
             e.printStackTrace();
-            return "Eroare la decriptare.";
+            return ResponseEntity.badRequest().body("Eroare la decriptare: " + e.getMessage());
         }
     }
 }

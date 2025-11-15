@@ -1,5 +1,13 @@
+com/example/passwordapp/LoginRequest.class
+com/example/passwordapp/AuthService.class
+com/example/passwordapp/AuthResponse.class
 com/example/passwordapp/CryptoUtil.class
+com/example/passwordapp/UserRepository.class
 com/example/passwordapp/PasswordEntry.class
 com/example/passwordapp/PasswordRequest.class
+com/example/passwordapp/User.class
 com/example/passwordapp/PasswordAppApplication.class
+com/example/passwordapp/AuthController.class
 com/example/passwordapp/PasswordController.class
+com/example/passwordapp/RegisterRequest.class
+com/example/passwordapp/PasswordEntryRepository.class

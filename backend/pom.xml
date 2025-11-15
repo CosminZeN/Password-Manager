@@ -27,7 +27,26 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Test (nu e obligatoriu acum, dar îl lăsăm) -->
+        <!-- JPA pentru DB -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- H2 DB în memorie (pentru local). Pe Railway vei pune Postgres. -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- BCrypt pentru hash parola user -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
+        <!-- Test (poți lăsa așa) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

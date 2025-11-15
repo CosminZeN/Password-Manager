@@ -1,5 +1,13 @@
+/Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/AuthController.java
+/Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/AuthResponse.java
+/Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/AuthService.java
 /Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/CryptoUtil.java
+/Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/LoginRequest.java
 /Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/PasswordAppApplication.java
 /Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/PasswordController.java
 /Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/PasswordEntry.java
+/Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/PasswordEntryRepository.java
 /Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/PasswordRequest.java
+/Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/RegisterRequest.java
+/Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/User.java
+/Users/cosminzen/VS Code /PasswordApp/backend/src/main/java/com/example/passwordapp/UserRepository.java
